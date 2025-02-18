@@ -7,10 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.ssk.attendancetracker.model.AttendanceRequest;
@@ -28,13 +28,13 @@ public class AttendanceServiceHandler implements AttendanceService{
 		// TODO Auto-generated method stub
 		FileInputStream file;
 		try {
-			file = new FileInputStream(new File("/attendancetracker/src/main/resources/AttendanceReport.xlsx"));
-			HSSFWorkbook workbook=new HSSFWorkbook(file);
-			HSSFSheet sheet=workbook.getSheetAt(0);
+			file = new FileInputStream(new File("src/main/resources/AttendanceReport.xlsx"));
+			XSSFWorkbook  workbook=new XSSFWorkbook(file);
+			XSSFSheet sheet=workbook.getSheetAt(0);
 			int rowCount=sheet.getLastRowNum();
-			HSSFRow row=sheet.createRow(++rowCount);
+			XSSFRow row=sheet.createRow(++rowCount);
 			int columnCount=0;
-			HSSFCell cell=row.createCell(columnCount);
+			XSSFCell cell=row.createCell(columnCount);
 			if(!Optional.ofNullable(request).isEmpty()) {
 				cell=row.createCell(columnCount++);
 				if(request.getEmployeeId()!=null) {
@@ -80,7 +80,7 @@ public class AttendanceServiceHandler implements AttendanceService{
 				}
 			}
 			file.close();
-			FileOutputStream fos=new FileOutputStream("/attendancetracker/src/main/resources/AttendanceReport.xlsx");
+			FileOutputStream fos=new FileOutputStream("src/main/resources/AttendanceReport.xlsx");
 			workbook.write(fos);
 			log.info("Excel is updated Sucessfully");
 			workbook.close();
