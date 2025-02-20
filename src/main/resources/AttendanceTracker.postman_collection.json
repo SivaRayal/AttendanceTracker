@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "dd9698c4-edab-41f8-b562-da033eee4bff",
+		"name": "AttendanceTracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6419793"
+	},
+	"item": [
+		{
+			"name": "UpdateAttendance",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"EmployeeId\":\"P7167176\",\r\n    \"Email\": \"p7167176@ness.com\",\r\n    \"Project\": \"RT Coreservices webplatform B\",\r\n    \"Location\": \"S&P Orion\",\r\n    \"LocationVerification\": \"Success\",\r\n    \"AttendanceStatus\": \"Present\",\r\n    \"LoginTime\":\"11:30:04\",\r\n    \"LogoutTime\":\"22:00:56\",\r\n    \"Comments\":\"Working From Office\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/monitor/updateAttendance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"monitor",
+						"updateAttendance"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Check-in</title>
+</head>
+
+<body>
+    <h2>Office Attendance Check-in</h2>
+    <p id="status">Checking location...</p>
+    <script>
+        const officeLatitude = 13.0776; // Replace with your office's latitude  , 17.42292583817587
+        const officeLongitude = 80.2917; // Replace with your office's longitude , 78.37826483474197
+        const radius = 0.5; // 0.3 km radius allowed for check-in
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(verifyLocation, showError);
+            } else {
+                document.getElementById("status").innerText = "Geolocation is not supported by this browser.";
+            }
+        }
+
+
+        function verifyLocation(position) {
+            const lat = position.coords.latitude; // 17.42292583817587
+            const lon = position.coords.longitude; // 78.37826483474197
+            const distance = getDistance(lat, lon, officeLatitude, officeLongitude);
+            if (distance <= radius) {
+                document.getElementById("status").innerText = "Location verified! Marking attendance...";
+                // Send data to the server
+                // fetch("https://yourserver.com/mark-attendance", {
+                //         method: "POST",
+                //         headers: {
+                //             "Content-Type": "application/json"
+                //         },
+                //         body: JSON.stringify({
+                //             latitude: lat,
+                //             longitude: lon,
+                //             timestamp: new Date().toISOString()
+                //         })
+                //     }).then(response => response.json())
+                //     .then(data => document.getElementById("status").innerText = data.message)
+                //     .catch(error => document.getElementById("status").innerText = "Error marking attendance.");
+            } else {
+                document.getElementById("status").innerText = "You are not in the office! Attendance not recorded.";
+            }
+        }
+
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the Earth in km
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Distance in km
+        }
+
+        function showError(error) {
+            document.getElementById("status").innerText = "Geolocation error: " + error.message;
+        }
+
+        window.onload = getLocation;
+    </script>
+</body>
+
+</html>
